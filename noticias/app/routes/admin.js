@@ -7,12 +7,12 @@ module.exports = (app) => {
         let noticia = req.body;
 
         /* Validator nos campos */
-        req.assert('titulo', 'O título é obrigatório.').notEmpty();
-        req.assert('resumo', 'O resumo é obrigatório.').notEmpty();
-        req.assert('resumo', 'Um resumo mínimo de 10 e máximo de 100 caracteres').len(10, 100);
-        req.assert('autor', 'O nome do autor é obrigatório.').notEmpty();
-        req.assert('data', 'A data é obrigatória.').notEmpty().isDate({ format: 'YYYY-MM-DD' });
-        req.assert('noticia', 'Campo não pode ser vazio.').notEmpty();
+        req.assert('titulo', 'Título é obrigatório').notEmpty();
+        req.assert('resumo', 'Resumo é obrigatório').notEmpty();
+        req.assert('resumo', 'Resumo deve conter entre 10 e 100 caracteres').len(10, 100);
+        req.assert('autor', 'Autor é obrigatório').notEmpty();
+        req.assert('data_noticia', 'Data é obrigatório').notEmpty().isDate({ format: 'YYYY-MM-DD' });
+        req.assert('noticia', 'Noticia é obrigatório').notEmpty();
 
         var erros = req.validationErrors();
 
