@@ -1,4 +1,5 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var consign = require('consign')();
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
@@ -11,6 +12,7 @@ app.listen(3000, () => {
 });
 
 /* Middlewares */
+app.use(express.static('./app/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 
