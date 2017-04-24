@@ -5,7 +5,7 @@ var expressValidator = require('express-validator');
 
 var app = express();
 
-/* views do express */
+/* Variáveis do sistema */
 app.set('view engine', 'ejs');
 app.set('views', './app/views');
 
@@ -22,7 +22,52 @@ consign()
     .into(app);
 
 /* Set da porta do servidor */
-app.listen(80, () => console.log('Servidor rodando na porta 80.'));
+var server = app.listen(3000, () => console.log('Servidor rodando na porta 3000.'));
+
+/* Criando a conexão via websocket */
+var io = require('socket.io').listen(server);
+
+io.on("connection", function (socket) {
+
+    socket.on('disconnect', function () {
+
+    });
+
+    socket.on('msgParaServidor', function (data) {
+        socket.emit(
+            'msgParaCliente',
+            {
+                apelido: data.apelido,
+                mensagem: data.mensagem
+            }
+        );
+        socket.broadcast.emit(
+            'msgParaCliente',
+            {
+                apelido: data.apelido,
+                mensagem: data.mensagem
+            }
+        );
+
+        /* Participantes */
+        if (parseInt(data.apelido_atualizado_nos_clientes) == 0) {
+            socket.emit(
+                'participantesParaCliente',
+                {
+                    apelido: data.apelido
+                }
+            );
+            socket.broadcast.emit(
+                'participantesParaCliente',
+                {
+                    apelido: data.apelido
+                }
+            );
+        }
+    });
+});
+
+app.set('io', io);
 
 /* exportar objeto app */
 module.exports = app;
