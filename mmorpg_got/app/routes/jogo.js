@@ -1,5 +1,21 @@
 module.exports = function (application) {
-    application.get('/jogo', function (req, res) {
-        application.app.controllers.jogo.render(application, req, res);
-    });
+	application.get('/jogo', function (req, res) {
+		application.app.controllers.jogo.jogo(application, req, res);
+	});
+
+	application.get('/sair', function (req, res) {
+		application.app.controllers.jogo.logout(application, req, res);
+	});
+
+	application.get('/suditos', function (req, res) {
+		application.app.controllers.jogo.suditos(application, req, res);
+	});
+
+	application.get('/pergaminhos', function (req, res) {
+		application.app.controllers.jogo.pergaminhos(application, req, res);
+	});
+
+	application.post('/ordenar-acao-sudito', function (req, res) {
+		application.app.controllers.jogo.ordenarAcaoSudito(application, req, res);
+	});
 }

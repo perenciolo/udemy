@@ -2,9 +2,18 @@
 	<h3>Pergaminhos</h3>
 	
 	<ul>
-		<li>1 enforcamento(s) programado - <small>restam 00000 segundos - <a href="#">revogar ordem</a></small></li>
-		<li>2 aldeão(ões) em treinamento de magia - <small>restam 00000 segundos - <a href="#">revogar ordem</a></small></li>
-		<li>1 aldeão(ões) em treinamento de história - <small>restam 00000 segundos - <a href="#">revogar ordem</a></small></li>
-		<li>5 aldeão(ões) coletando recursos - <small>restam 00000 segundos - <a href="#">revogar ordem</a></small></li>
+
+		<% for(var i = 0; i < acoes.length; i++) { 
+			var textAct = null;
+
+			switch(parseInt(acoes[i].acao)){
+				case 1: textAct = "Coletar recursos"; break;
+				case 2: textAct = "Enforcar aldeão"; break;
+				case 3: textAct = "Ensinar história";break;
+				case 4: textAct = "Ensinar magia"; break;
+			}	
+		%>
+		<li><%=acoes[i].quantidade %> - <%= textAct %> - <small>restam 00000 segundos - <a href="#">revogar ordem</a></small></li>
+		<% } %>
 	</ul>
 </div>

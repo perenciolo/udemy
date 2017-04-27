@@ -15,9 +15,9 @@
 		<link href="css/style.css" rel="stylesheet">
 
 		<script>
-			$(document).ready(function(){
-				$("#cadastrar").click(function(){
-					window.location.href = '/cadastro';
+			$(document).ready(function () {
+				$("#cadastrar").click(function () {
+					window.location.href = ' /cadastro';
 				});
 			});
 		</script>
@@ -28,16 +28,20 @@
 
 		<nav class="navbar navbar-default navbar-static-top">
 			<div class="container">
-				<form class="form-inline form-entrar">
-					<div class="form-group">				
-						<input type="text" name="usuario" id="usuario" placeholder="Usuário" class="form-control" autocomplete="off" />
-						<input type="password" name="senha" id="senha" placeholder="Senha" class="form-control" />
-						<button type="button" class="btn btn-success">Entrar</button>
-						<button type="button" class="btn btn-info" id="cadastrar">Cadastro</button>
+				<form class="form-inline form-entrar" action="/autenticar" method="post">
+					<div class="form-group <% if (validacao.length > 0) { %>has-error has-feedback <% } %>">
+						<% if (validacao.length > 0) { %>
+							<% for(let i = 0; i < validacao.length; i++){ %>
+								<label class="control-label" for="usuario"><%= validacao[i].msg; %></label>
+							<% } %>
+						<% } %>
+						<input type="text" class="form-control" name="usuario" id="usuario" placeholder="Usuário">
+						<input type="password" class="form-control" name="senha" id="senha" placeholder="Senha">
+						<button type="submit" class="btn btn-success">Entrar</button>
+						<button type="button" id="cadastrar" class="btn btn-info">Cadastro</button>
 					</div>
 				</form>
 			</div>
-			
 		</nav>
 
 	    <div class="container">
