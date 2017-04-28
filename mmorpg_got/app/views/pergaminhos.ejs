@@ -12,8 +12,22 @@
 				case 3: textAct = "Ensinar história"; break;
 				case 4: textAct = "Ensinar magia"; break;
 			}	
+
+			var date = new Date();
+			var agora = date.getTime();
+
+			var segundosRestantes = Math.round((acoes[i].acaoTerminaEm - agora) / 1000);
 		%>
-		<li><%=acoes[i].quantidade %> - <%= textAct %> - <small>restam 00000 segundos - <a href="#">revogar ordem</a></small></li>
+		<li>
+			<%= acoes[i].quantidade %> - <%= textAct %> 
+			- <small>restam 
+			<span class="tempo_restante">
+				<%= segundosRestantes %>
+			</span>
+			 segundos 
+				- <a href="/revogar_acao/<%= acoes[i]._id %>">revogar ordem</a>
+			</small>
+		</li>
 		<% } %>
 	</ul>
 </div>
