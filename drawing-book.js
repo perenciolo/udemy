@@ -50,11 +50,12 @@ function pageCount(n, p) {
         if (el.indexOf(p) !== -1) {
 
             if (i === maxIndex) {
-
-                return minPageTurns;
+                return;
+            } else if (maxIndex - i < i) {
+                minPageTurns = maxIndex - i;
+            } else {
+                minPageTurns = i;
             }
-
-            minPageTurns = i;
         }
     });
 
