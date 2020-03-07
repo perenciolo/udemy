@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev:server": "ts-node-dev --respawn --transpileOnly src/index.ts",
+    "node:dev:server": "ts-node-dev --respawn --transpileOnly src/index.ts",
+    "dev:view": "parcel index.html",
     "dev:db": "json-server -w db.json",
     "start": "concurrently yarn:dev:*"
   },
