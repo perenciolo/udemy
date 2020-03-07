@@ -1,5 +1,14 @@
-import { User } from './models/User';
+import { Collection } from './models/Collection';
+import { User, UserProps } from './models/User';
 
-const user = new User({ name: 'Carlos Cachoeira', age: 74 });
-user.on('save', () => console.log(user));
-user.save();
+const collection = User.buildUserCollection();
+
+collection.on('change', () => {
+  console.log(collection.models);
+});
+
+collection.on('error', () => {
+  console.log('error');
+});
+
+collection.fetch();

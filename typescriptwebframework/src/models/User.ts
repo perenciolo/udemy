@@ -1,7 +1,8 @@
-import { Eventing } from './Eventing';
-import { Sync } from './Sync';
+import { Model } from './Model';
 import { Attributes } from './Attributes';
-import { AxiosResponse } from 'axios';
+import { Eventing } from './Eventing';
+import { ApiSync } from './ApiSync';
+import { Collection } from './Collection';
 
 export interface UserProps {
   id?: number;
@@ -11,57 +12,18 @@ export interface UserProps {
 
 const ROOT_URL = 'http://localhost:3000/users';
 
-export class User {
-  private events: Eventing = new Eventing();
-  private sync: Sync<UserProps> = new Sync<UserProps>(ROOT_URL);
-  private attributes: Attributes<UserProps>;
-
-  constructor(private attrs: UserProps) {
-    this.attributes = new Attributes<UserProps>(this.attrs);
+export class User extends Model<UserProps> {
+  static buildUser(attrs: UserProps): User {
+    return new User(
+      new Attributes<UserProps>(attrs),
+      new Eventing(),
+      new ApiSync<UserProps>(ROOT_URL)
+    );
   }
 
-  public get on() {
-    return this.events.on;
-  }
-
-  public get trigger() {
-    return this.events.trigger;
-  }
-
-  public get get() {
-    return this.attributes.get;
-  }
-
-  public set(update: UserProps): void {
-    this.attributes.set(update);
-    this.events.trigger('change');
-  }
-
-  public fetch(): void {
-    const id = this.get('id');
-
-    if (typeof id !== 'number') {
-      throw new Error('Cannot fetch without an id');
-    }
-
-    this.sync
-      .fetch(id)
-      .then((response: AxiosResponse): void => {
-        this.set(response.data);
-      })
-      .catch((): void => {
-        this.trigger('error');
-      });
-  }
-
-  public save(): void {
-    this.sync
-      .save(this.attributes.getAll())
-      .then((response: AxiosResponse): void => {
-        this.trigger('save');
-      })
-      .catch((): void => {
-        this.trigger('error');
-      });
+  static buildUserCollection(): Collection<User, UserProps> {
+    return new Collection<User, UserProps>(ROOT_URL, (json: UserProps) =>
+      User.buildUser(json)
+    );
   }
 }
