@@ -12,11 +12,11 @@ export default function GuessedWords({ guessedWords }) {
         </span>
       )}
 
-      {guessedWords.length && (
+      {guessedWords.length !== 0 && (
         <div data-test="guessed-words">
           <h3>Guessed Words</h3>
-          <table>
-            <thead>
+          <table className="table table-sm">
+            <thead className="thead-light">
               <tr>
                 <th>Guess</th>
                 <th>Matching Letters</th>
@@ -36,6 +36,11 @@ export default function GuessedWords({ guessedWords }) {
     </div>
   );
 }
+
+const style = {
+  border: '1px solid #333',
+  padding: '10px'
+};
 
 GuessedWords.propTypes = {
   guessedWords: PropTypes.arrayOf(

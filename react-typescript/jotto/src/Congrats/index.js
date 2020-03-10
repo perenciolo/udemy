@@ -12,8 +12,10 @@ import PropTypes from 'prop-types';
 export default function Congrats({ success }) {
   return (
     (success && (
-      <div data-test="component-congrats">
-        <span data-test="congrats-message"></span>
+      <div data-test="component-congrats" className="alert alert-success">
+        <span data-test="congrats-message">
+          Congratulations! You guessed the world!
+        </span>
       </div>
     )) || <div data-test="component-congrats" />
   );
