@@ -40,15 +40,15 @@ Add a button 'Scold!' and a scolding counter to the DogDetails component. When t
 
 Tip: use React's useState hook to do this. [Tip.](https://kentcdodds.com/blog/react-hooks-whats-going-to-happen-to-my-tests)
 
-Exercise 5
+## Exercise 5
 
 Create a new component named CreateBeerForm. This form will have the following inputs:
 
-beer name: text input
-beer type: combobox with different beer types (Ale, Lager, Stout, etc)
-has corn: checkbox
-ingredients: text area
-When the user clicks on the submit button, the values on the form must be written on the console. For this exercise, no new libraries are allowed
+- beer name: text input
+- beer type: combobox with different beer types (Ale, Lager, Stout, etc)
+- has corn: checkbox
+- ingredients: text area
+- When the user clicks on the submit button, the values on the form must be written on the console. For this exercise, no new libraries are allowed
 
 Tip: use React's useState hook to do this.
 
