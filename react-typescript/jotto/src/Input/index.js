@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 
 // import { Container } from './styles';
 
-export default function Input() {
+export default function Input({ secretWord }) {
   return <div data-test="component-input" />;
 }
 
-Input.propTypes = {};
+Input.propTypes = {
+  secretWord: PropTypes.string.isRequired
+};
