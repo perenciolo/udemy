@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // import { Container } from './styles';
 
@@ -8,12 +9,16 @@ import React from 'react';
  * @param {object} props - React props.
  * @returns {JSX.Element} - Rendered component
  */
-export default function Congrats(props) {
+export default function Congrats({ success }) {
   return (
-    (props && props.success && (
+    (success && (
       <div data-test="component-congrats">
         <span data-test="congrats-message"></span>
       </div>
     )) || <div data-test="component-congrats" />
   );
 }
+
+Congrats.propTypes = {
+  success: PropTypes.bool.isRequired
+};
