@@ -1,4 +1,7 @@
 import React from 'react';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
+
 import './App.css';
 
 import AlertBtn from './components/AlertBtn';
@@ -10,21 +13,18 @@ function App() {
     alert('Woof! Woof!');
   }
   return (
-    <div className="container">
-      <div className="row">
+    <>
+      <CssBaseline />
+      <Container fixed>
         <CreateBeerForm />
-      </div>
-      <div className="row">
         <AlertBtn btnTxt="Alert Me" alertTxt="Hello World" />
-      </div>
-      <div className="row">
         <DogDetails
           name="Linus"
           img="https://placeimg.com/300/300/animals"
           onBark={handleBark}
         />
-      </div>
-    </div>
+      </Container>
+    </>
   );
 }
 

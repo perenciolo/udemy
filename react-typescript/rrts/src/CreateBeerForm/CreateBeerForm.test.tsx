@@ -22,17 +22,11 @@ describe('CreateBeerForm state', () => {
       .mockImplementation(() => [INITIAL_STATE, mockSetFormState]);
   });
 
-  test('on clicking on the submit button, the values on the form must be written on the console', () => {
-    // expect(mockSetFormState).toBeCalledWith('train');
-    // const submitBtn = wrapper.find('button.btn-primary');
-    // console.log(submitBtn.simulate('click'));
-  });
-
   test('on changing input value state should be updated as well', () => {
     const mockEvent = { target: { value: 'train' } };
-    wrapper.find('input[name="name"]').simulate('change', mockEvent);
+    wrapper.find('[name="name"]').simulate('change', mockEvent);
 
-    expect(wrapper.find('input[name="name"]').prop('value')).toEqual(
+    expect(wrapper.find('[name="name"]').prop('value')).toEqual(
       mockEvent.target.value
     );
   });
