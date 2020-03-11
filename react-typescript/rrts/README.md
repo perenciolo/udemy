@@ -32,7 +32,7 @@ On DogDetails add a new prop called onBark that accepts a function.
 Whenever the bark button is clicked, this prop should be called.
 Use this prop to display an alert message 'Woof! Woof!' when the button is clicked.
 
-Tip: the function that displays the alert should be defined on App and passed as prop to DogDetails.
+> Tip: the function that displays the alert should be defined on App and passed as prop to DogDetails.
 
 ## Exercise 4
 
@@ -50,42 +50,40 @@ Create a new component named CreateBeerForm. This form will have the following i
 - ingredients: text area
 - When the user clicks on the submit button, the values on the form must be written on the console. For this exercise, no new libraries are allowed
 
-Tip: use React's useState hook to do this.
+> Tip: use React's useState hook to do this.
 
-Exercise 6
+## Exercise 6
 
 Create a new component named CreateBeerFormikForm. This form will have the following inputs:
 
-beer name: text input
-beer type: combobox with different beer types (Ale, Lager, Stout, etc)
-has corn: checkbox
-ingredients: text area
-When the user clicks on the submit button, the values on the form must be written on the console. For this exercise, use the formik library
+- beer name: text input
+- beer type: combobox with different beer types (Ale, Lager, Stout, etc)
+- has corn: checkbox
+- ingredients: text area
+- When the user clicks on the submit button, the values on the form must be written on the console. For this exercise, use the formik library
 
-Please tell me you are already splitting your code in more than on file.
+> Please tell me you are already splitting your code in more than on file.
 
-Exercise 7
+## Exercise 7
 
 Add validation on both forms.
 
-beer name: required
-beer type: required
-ingredients: required
-If the form is not valid, the submit button should be disabled. yup can be used for validation if you want.
+- beer name: required
+- beer type: required
+- ingredients: required
 
-Exercise 8
+> If the form is not valid, the submit button should be disabled. yup can be used for validation if you want.
+
+## Exercise 8
 
 Use the components of Material UI to improve the ui of the form. Input, Card, Button, etc are probably going to be needed for this.
 
-Exercise 9
+## Exercise 9
 
 Use the layout components of Material UI to display the components created so far as follows:
+| DogDetails | CreateBeerForm | CreateBeerFormikForm |
+| ---------- | :------------: | -------------------: |
 
-| ------------------------------------------- |
-| DogDetails |
-| ------------------------------------------- |
-| CreateBeerForm | CreateBeerFormikForm |
-| ------------------------------------------- |
 Exercise 10
 
 Create the component DogList. This component accepts an array of dogs and displays them in a list. To get the list of dogs, consume the Dogs API using the browser's fetch method. Each item of the list should show the name of a breed (you don't need to include sub-breeds). Make sure that the first letter is capitalized.

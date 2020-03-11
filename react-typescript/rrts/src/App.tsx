@@ -6,7 +6,8 @@ import './App.css';
 
 import AlertBtn from './components/AlertBtn';
 import DogDetails from './components/DogDetails';
-import CreateBeerForm from './CreateBeerForm';
+import CreateBeerForm from './components/CreateBeerForm';
+import CreateBeerFormikForm from './components/CreateBeerFormikForm';
 
 function App() {
   function handleBark() {
@@ -16,8 +17,14 @@ function App() {
     <>
       <CssBaseline />
       <Container fixed>
+        <h2>With Formik</h2>
+        <CreateBeerFormikForm />
+        <hr />
+        <h2>Default Form</h2>
         <CreateBeerForm />
+        <hr />
         <AlertBtn btnTxt="Alert Me" alertTxt="Hello World" />
+        <hr />
         <DogDetails
           name="Linus"
           img="https://placeimg.com/300/300/animals"
