@@ -88,15 +88,15 @@ Exercise 10
 
 Create the component DogList. This component accepts an array of dogs and displays them in a list. To get the list of dogs, consume the Dogs API using the browser's fetch method. Each item of the list should show the name of a breed (you don't need to include sub-breeds). Make sure that the first letter is capitalized.
 
-Do not display a loading indicator while the API is being called yet. This will be done in another exercise
+> Do not display a loading indicator while the API is being called yet. This will be done in another exercise
 
-You can't use any external library that does http communication on this exercise.
+> You can't use any external library that does http communication on this exercise.
 
-Tip: think about testability and the responsabilities of each component. Is DogList the only component you will need to create?
+> Tip: think about testability and the responsabilities of each component. Is DogList the only component you will need to create?
 
-Tip: Consider using lodash's capitalize and map methods.
+> Tip: Consider using lodash's capitalize and map methods.
 
-Tip: Read React's documentation about lists
+> Tip: Read React's documentation about lists
 
 Exercise 11
 
@@ -106,19 +106,19 @@ Exercise 12
 
 Replace the use of fetch for an external library like superagent.
 
-If you have time: find out what are the limitations of fetch
+> If you have time: find out what are the limitations of fetch
 
 Exercise 13
 
 Display a loading indicator while the communication with the api is being made.
 
-Tip: Think about where the variable that controls the loading state should be
+> Tip: Think about where the variable that controls the loading state should be
 
 Exercise 14
 
 Combine the components DogList and DogDetails in a way that whenever the user clicks on an item of the list, that item is highlighted and the selected dog is shown in DogDetails component.
 
-Tip: pay attention about how you are passing data across the components
+> Tip: pay attention about how you are passing data across the components
 
 Exercise 15
 

@@ -52,11 +52,11 @@ describe('Dog Details props', () => {
 
   test('component should have a scolding counter and button', () => {
     expect(wrapper.find('button.scolding-counter--add')).toHaveLength(1);
-    expect(wrapper.find('.scolding-counter')).toHaveLength(1);
   });
 
-  test('when clicking add scolding button scold counter should increase by 1', () => {
+  test('when clicking add scolding button scold counter should appear and increase by 1', () => {
     wrapper.find('button.scolding-counter--add').simulate('click');
+    expect(wrapper.find('.scolding-counter')).toHaveLength(1);
     expect(Number(wrapper.find('.scolding-counter').text())).toEqual(1);
   });
 });
