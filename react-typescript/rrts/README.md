@@ -102,7 +102,7 @@ Create the component DogList. This component accepts an array of dogs and displa
 
 Change the DogList component to show an image for each item of the list. Look into the API documentation to realize how to do it
 
-Exercise 12
+## Exercise 12
 
 Replace the use of fetch for an external library like superagent.
 
