@@ -4,34 +4,44 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import { fetchData } from '../../utils/Fetch';
 import { API_URI } from '../../utils/Constants';
+import { CircularProgress } from '@material-ui/core';
 
 interface DogAvatarProps {
   breedName: string;
 }
 
 const DogAvatar: React.FC<DogAvatarProps> = ({ breedName }) => {
+  const [loading, setLoading] = useState(false);
   const [dogImg, setDogImg] = useState('');
 
   const fetchDogImg = useCallback(async (breedName: string): Promise<void> => {
-    const response: { [key: string]: string } = await fetchData(
-      `${API_URI}/breed/${breedName.toLowerCase()}/images/random`
-    );
+    setLoading(true);
 
-    if (response.message) {
+    try {
+      const response = await fetchData<{ [key: string]: string }>(
+        `${API_URI}/breed/${breedName.toLowerCase()}/images/random`
+      );
+
+      if (!response || !Object.keys(response).includes('message')) {
+        throw new Error();
+      }
+
       setDogImg(response.message);
-      return;
+    } catch (error) {
+      setDogImg('/static/images/avatar/1.jpg');
+      console.log(error);
     }
-
-    setDogImg('/static/images/avatar/1.jpg');
   }, []);
 
   useEffect(() => {
-    fetchDogImg(breedName);
+    fetchDogImg(breedName).finally(() => {
+      setLoading(false);
+    });
   }, [breedName, fetchDogImg]);
 
   return (
     <ListItemAvatar>
-      <Avatar alt={breedName} src={dogImg} />
+      {loading ? <CircularProgress /> : <Avatar alt={breedName} src={dogImg} />}
     </ListItemAvatar>
   );
 };

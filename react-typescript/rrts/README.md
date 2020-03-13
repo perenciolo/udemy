@@ -108,7 +108,7 @@ Replace the use of fetch for an external library like superagent.
 
 > If you have time: find out what are the limitations of fetch
 
-Exercise 13
+## Exercise 13
 
 Display a loading indicator while the communication with the api is being made.
 
