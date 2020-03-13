@@ -84,7 +84,7 @@ Use the layout components of Material UI to display the components created so fa
 | DogDetails | CreateBeerForm | CreateBeerFormikForm |
 | ---------- | :------------: | -------------------: |
 
-Exercise 10
+## Exercise 10
 
 Create the component DogList. This component accepts an array of dogs and displays them in a list. To get the list of dogs, consume the Dogs API using the browser's fetch method. Each item of the list should show the name of a breed (you don't need to include sub-breeds). Make sure that the first letter is capitalized.
 
@@ -98,7 +98,7 @@ Create the component DogList. This component accepts an array of dogs and displa
 
 > Tip: Read React's documentation about lists
 
-Exercise 11
+## Exercise 11
 
 Change the DogList component to show an image for each item of the list. Look into the API documentation to realize how to do it
 

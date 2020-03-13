@@ -2,9 +2,9 @@ import React, { useState, useCallback, useEffect } from 'react';
 import _ from 'lodash';
 
 import { fetchData } from '../../utils/Fetch';
-import DogList from '../DogList';
+import { API_URI } from '../../utils/Constants';
 
-const API_URI = 'https://dog.ceo/api';
+import DogList from '../DogList';
 
 interface DogListSchema {
   [key: string]: {
