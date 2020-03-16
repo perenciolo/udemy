@@ -8,6 +8,7 @@ import { API_URI } from '../../utils/Constants';
 
 import DogList from '../DogList';
 import DogDetails from '../DogDetails';
+import DogFilter from '../DogFilter';
 
 interface DogListSchema {
   message: {
@@ -25,6 +26,7 @@ export interface DogInfo {
 export default function DogWrapper() {
   const [loading, setLoading] = useState(false);
   const [dogsData, setDogsData] = useState<DogInfo[]>([]);
+  const [filteredDogsData, setFilteredDogsData] = useState<DogInfo[]>([]);
   const [activeDog, setActiveDog] = useState<DogInfo>({
     name: 'Linus',
     uri: 'https://placeimg.com/640/480/animals'
@@ -58,8 +60,8 @@ export default function DogWrapper() {
       );
 
       setDogsData(buildDogsData);
+      setFilteredDogsData(buildDogsData);
       setActiveDog(buildDogsData[0]);
-
       setLoading(false);
       return Promise.resolve(true);
     } catch (error) {
@@ -106,7 +108,7 @@ export default function DogWrapper() {
     setActiveDog(currentDog);
 
     // Change scolding on dogsData array.
-    const newDogsData = dogsData.map((dog, index) => {
+    const newDogsData = filteredDogsData.map((dog: DogInfo) => {
       if (dog.name === activeDog.name) {
         return {
           name: dog.name,
@@ -116,7 +118,7 @@ export default function DogWrapper() {
       }
       return dog;
     });
-    setDogsData(newDogsData);
+    setFilteredDogsData(newDogsData);
   }
 
   function handleClick(dog: DogInfo) {
@@ -124,6 +126,17 @@ export default function DogWrapper() {
       ...oldState,
       ...dog
     }));
+  }
+
+  function handleFiltering(event: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = event.target;
+    if (value === 'all') {
+      setFilteredDogsData(dogsData);
+    } else {
+      setFilteredDogsData(
+        dogsData.filter(dogs => dogs.name.toLowerCase().startsWith(value))
+      );
+    }
   }
 
   return (
@@ -136,7 +149,7 @@ export default function DogWrapper() {
         <Grid container spacing={3}>
           <Grid item xs={12} sm>
             <h2>Dog List</h2>
-            <DogList list={dogsData} handler={handleClick} />
+            <DogList list={filteredDogsData} handler={handleClick} />
           </Grid>
           <Grid item xs={12} sm>
             <h2>Dog Details</h2>
@@ -147,6 +160,9 @@ export default function DogWrapper() {
               onBark={handleBark}
               onScold={handleScold}
             />
+            <Grid item xs={12}>
+              <DogFilter handleChange={handleFiltering} />
+            </Grid>
           </Grid>
         </Grid>
       )}
