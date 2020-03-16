@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -20,12 +20,19 @@ const useStyles = makeStyles({
 interface IDogDetailsProps {
   name: string;
   img: string;
+  scold?: number;
   onBark: () => void;
+  onScold: () => void;
 }
 
-export default function DogDetails({ name, img, onBark }: IDogDetailsProps) {
+export default function DogDetails({
+  name,
+  img,
+  onBark,
+  onScold,
+  scold
+}: IDogDetailsProps) {
   const classes = useStyles();
-  const [scold, setScold] = useState(0);
 
   return (
     <Card className={classes.root}>
@@ -58,7 +65,7 @@ export default function DogDetails({ name, img, onBark }: IDogDetailsProps) {
           Bark!
         </Button>
         <Button
-          onClick={() => setScold(scold + 1)}
+          onClick={onScold}
           size="small"
           color="primary"
           className="scolding-counter--add"

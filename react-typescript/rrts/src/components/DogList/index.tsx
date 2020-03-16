@@ -4,14 +4,14 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Typography } from '@material-ui/core';
 
 import DogAvatar from '../DogAvatar';
+import { DogInfo } from '../DogWrapper';
 
 interface DogListProps {
-  list: string[];
-  handler: (dog: string) => void;
-  onGetImg: (uri: string) => void;
+  list: DogInfo[];
+  handler: (dog: DogInfo) => void;
 }
 
 const useStyles = makeStyles({
@@ -26,39 +26,35 @@ const useStyles = makeStyles({
   }
 });
 
-const DogList: React.FC<DogListProps> = ({ list, handler, onGetImg }) => {
+const DogList: React.FC<DogListProps> = ({ list, handler }) => {
   const classes = useStyles();
-  const [active, setActive] = useState<{
-    active: boolean;
-    target: null | number;
-  }>({
-    active: false,
-    target: null
-  });
+  const [active, setActive] = useState<string>(list[0] ? list[0].uri : '');
 
-  function handleClick(dog: string, index: number) {
+  function handleClick(dog: DogInfo) {
     handler(dog);
-    setActive({
-      active: true,
-      target: index
-    });
+    setActive(dog.uri);
   }
 
-  function renderList(items: string[]) {
-    return items.map((item: string, index: number) => (
+  function renderList(breeds: DogInfo[]) {
+    return breeds.map((dog: DogInfo, index: number) => (
       <Fragment key={String(index)}>
         <ListItem
           alignItems="center"
-          className={
-            active.active && active.target === index ? classes.activeClass : ''
-          }
+          className={active === dog.uri ? classes.activeClass : ''}
           button
-          onClick={handleClick.bind(null, item, index)}
+          onClick={handleClick.bind(null, dog)}
         >
-          <DogAvatar breedName={item} onGetImg={onGetImg} />
-          <ListItemText primary={item} />
+          <DogAvatar breedName={dog.name} dogImg={dog.uri} />
+          <ListItemText
+            primary={
+              <Typography>
+                <strong>{dog.name}</strong>
+              </Typography>
+            }
+            secondary={<Typography>Number of scolds: {dog.scold}</Typography>}
+          />
         </ListItem>
-        {index !== items.length - 1 && (
+        {index !== breeds.length - 1 && (
           <Divider variant="inset" component="li" />
         )}
       </Fragment>

@@ -16,13 +16,19 @@ interface DogListSchema {
   status: string;
 }
 
+export interface DogInfo {
+  name: string;
+  uri: string;
+  scold?: number;
+}
+
 export default function DogWrapper() {
   const [loading, setLoading] = useState(false);
-  const [breeds, setBreeds] = useState<string[]>([]);
-
-  function handleBark(): void {
-    alert('Woof! Woof!');
-  }
+  const [dogsData, setDogsData] = useState<DogInfo[]>([]);
+  const [activeDog, setActiveDog] = useState<DogInfo>({
+    name: 'Linus',
+    uri: 'https://placeimg.com/640/480/animals'
+  });
 
   async function fetching<T extends DogListSchema>(
     apiUrl: string
@@ -37,11 +43,24 @@ export default function DogWrapper() {
       }
 
       const breedKeys = Object.keys(response.message);
+      const breedImgs = breedKeys.map(
+        async (breedName: string) => await fetchDogImg(breedName)
+      );
+      const resolvedBreedImgs = await Promise.all(breedImgs);
       const breedNames = _.map(breedKeys, _.capitalize);
 
-      setLoading(false);
-      setBreeds((oldState: string[]) => [...oldState, ...breedNames]);
+      const buildDogsData: DogInfo[] = breedNames.map(
+        (dogName: string, index: number) => ({
+          name: dogName,
+          uri: resolvedBreedImgs[index],
+          scold: 0
+        })
+      );
 
+      setDogsData(buildDogsData);
+      setActiveDog(buildDogsData[0]);
+
+      setLoading(false);
       return Promise.resolve(true);
     } catch (error) {
       setLoading(false);
@@ -51,40 +70,86 @@ export default function DogWrapper() {
     }
   }
 
-  const fetchDogs = useCallback(fetching, []);
+  const fetchDogImg = useCallback(async (breedName: string): Promise<
+    string
+  > => {
+    try {
+      const response = await fetchData<{ [key: string]: string }>(
+        `${API_URI}/breed/${breedName.toLowerCase()}/images/random`
+      );
 
-  function handleGetImage(src: string) {
-    console.log(src);
-  }
+      if (!response || !Object.keys(response).includes('message')) {
+        throw new Error();
+      }
+
+      return Promise.resolve(response.message);
+    } catch (error) {
+      console.log(error);
+
+      return Promise.reject(error);
+    }
+  }, []);
+
+  const fetchDogs = useCallback(fetching, []);
 
   useEffect(() => {
     fetchDogs<DogListSchema>(`${API_URI}/breeds/list/all`);
   }, [fetchDogs]);
 
+  function handleBark(): void {
+    alert('Woof! Woof!');
+  }
+
+  function handleScold() {
+    const currentScolding = activeDog['scold'] ? activeDog['scold'] + 1 : 1;
+    const currentDog = { ...activeDog, scold: currentScolding };
+    setActiveDog(currentDog);
+
+    // Change scolding on dogsData array.
+    const newDogsData = dogsData.map((dog, index) => {
+      if (dog.name === activeDog.name) {
+        return {
+          name: dog.name,
+          uri: dog.uri,
+          scold: currentScolding
+        };
+      }
+      return dog;
+    });
+    setDogsData(newDogsData);
+  }
+
+  function handleClick(dog: DogInfo) {
+    setActiveDog((oldState: DogInfo) => ({
+      ...oldState,
+      ...dog
+    }));
+  }
+
   return (
     <>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm>
-          <h2>Dog List</h2>
-          {loading ? (
-            <CircularProgress />
-          ) : (
-            <DogList
-              list={breeds}
-              handler={(dog: string) => console.log(dog)}
-              onGetImg={handleGetImage}
+      {loading ? (
+        <Grid container direction="column" justify="center" alignItems="center">
+          <CircularProgress />
+        </Grid>
+      ) : (
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm>
+            <h2>Dog List</h2>
+            <DogList list={dogsData} handler={handleClick} />
+          </Grid>
+          <Grid item xs={12} sm>
+            <h2>Dog Details</h2>
+            <DogDetails
+              name={activeDog.name}
+              img={activeDog.uri}
+              scold={activeDog.scold}
+              onBark={handleBark}
+              onScold={handleScold}
             />
-          )}
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm>
-          <h2>Dog Details</h2>
-          <DogDetails
-            name="Linus"
-            img="https://placeimg.com/300/300/animals"
-            onBark={handleBark}
-          />
-        </Grid>
-      </Grid>
+      )}
     </>
   );
 }
