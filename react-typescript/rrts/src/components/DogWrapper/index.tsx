@@ -1,11 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import _ from 'lodash';
+import Grid from '@material-ui/core/Grid';
 import { CircularProgress } from '@material-ui/core';
 
 import { fetchData } from '../../utils/Fetch';
 import { API_URI } from '../../utils/Constants';
 
 import DogList from '../DogList';
+import DogDetails from '../DogDetails';
 
 interface DogListSchema {
   message: {
@@ -14,9 +16,13 @@ interface DogListSchema {
   status: string;
 }
 
-export default function DogListWrapper() {
+export default function DogWrapper() {
   const [loading, setLoading] = useState(false);
   const [breeds, setBreeds] = useState<string[]>([]);
+
+  function handleBark(): void {
+    alert('Woof! Woof!');
+  }
 
   async function fetching<T extends DogListSchema>(
     apiUrl: string
@@ -47,9 +53,38 @@ export default function DogListWrapper() {
 
   const fetchDogs = useCallback(fetching, []);
 
+  function handleGetImage(src: string) {
+    console.log(src);
+  }
+
   useEffect(() => {
     fetchDogs<DogListSchema>(`${API_URI}/breeds/list/all`);
   }, [fetchDogs]);
 
-  return <>{loading ? <CircularProgress /> : <DogList list={breeds} />}</>;
+  return (
+    <>
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm>
+          <h2>Dog List</h2>
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <DogList
+              list={breeds}
+              handler={(dog: string) => console.log(dog)}
+              onGetImg={handleGetImage}
+            />
+          )}
+        </Grid>
+        <Grid item xs={12} sm>
+          <h2>Dog Details</h2>
+          <DogDetails
+            name="Linus"
+            img="https://placeimg.com/300/300/animals"
+            onBark={handleBark}
+          />
+        </Grid>
+      </Grid>
+    </>
+  );
 }

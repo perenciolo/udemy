@@ -114,7 +114,7 @@ Display a loading indicator while the communication with the api is being made.
 
 > Tip: Think about where the variable that controls the loading state should be
 
-Exercise 14
+## Exercise 14
 
 Combine the components DogList and DogDetails in a way that whenever the user clicks on an item of the list, that item is highlighted and the selected dog is shown in DogDetails component.
 

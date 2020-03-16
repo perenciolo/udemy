@@ -13,11 +13,9 @@ const useStyles = makeStyles({
     width: '100%'
   },
   media: {
-    height: 150
+    height: 250
   }
 });
-
-// import { Container } from './styles';
 
 interface IDogDetailsProps {
   name: string;
