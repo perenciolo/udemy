@@ -5,14 +5,12 @@ import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles, Typography } from '@material-ui/core';
+import { useStore } from 'effector-react';
 
 import DogAvatar from '../DogAvatar';
 import { DogInfo } from '../DogWrapper';
-
-interface DogListProps {
-  list: DogInfo[];
-  handler: (dog: DogInfo) => void;
-}
+import { selectActiveDog } from '../../store/ActiveDog';
+import { Filter } from '../../store/Filter';
 
 const useStyles = makeStyles({
   root: {
@@ -26,21 +24,29 @@ const useStyles = makeStyles({
   }
 });
 
-const DogList: React.FC<DogListProps> = ({ list, handler }) => {
+const DogList: React.FC = () => {
   const classes = useStyles();
-  const [active, setActive] = useState<string>(list[0] ? list[0].uri : '');
+  const [active, setActive] = useState('');
+  const dogList = useStore(Filter);
 
   function handleClick(dog: DogInfo) {
-    handler(dog);
-    setActive(dog.uri);
+    selectActiveDog(dog);
+    setActive(dog.name);
   }
 
   function renderList(breeds: DogInfo[]) {
+    if (!breeds || !breeds.length) {
+      return <div>No dogs found for this filter</div>;
+    }
     return breeds.map((dog: DogInfo, index: number) => (
       <Fragment key={String(index)}>
         <ListItem
           alignItems="center"
-          className={active === dog.uri ? classes.activeClass : ''}
+          className={
+            active === dog.name || (active === '' && index === 0)
+              ? classes.activeClass
+              : ''
+          }
           button
           onClick={handleClick.bind(null, dog)}
         >
@@ -61,7 +67,7 @@ const DogList: React.FC<DogListProps> = ({ list, handler }) => {
     ));
   }
 
-  return <List className="dog-list">{renderList(list)}</List>;
+  return <List className="dog-list">{renderList(dogList)}</List>;
 };
 
 export default DogList;

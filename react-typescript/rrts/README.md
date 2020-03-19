@@ -120,11 +120,11 @@ Combine the components DogList and DogDetails in a way that whenever the user cl
 
 > Tip: pay attention about how you are passing data across the components
 
-Exercise 15
+## Exercise 15
 
 Change the DogList component to show the scolding counter for each item. Whenever the 'Scold!' button is clicked on DogDetails the counter must be incremented consistently.
 
-Exercise 16
+## Exercise 16
 
 Create a DogFilter component. This component will display one button for each letter from A to Z. Use a radio component to do that. Each button will have a number showing how many dogs of the list start with that letter.
 
@@ -132,6 +132,6 @@ Combine them with the other two components.
 
 When the use clicks on a button, the DogList should only show the rows with dogs whose names start with the selected letter.
 
-Exercise 17
+## Exercise 17
 
 Refactor your code to use effectorjs. Using this lib, you should be able to concentrate all status changes in one place, and remove the use of state of all components.

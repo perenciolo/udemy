@@ -6,7 +6,9 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+
 import { alphabetArray } from '../../utils/Helpers';
+import { activateFilter } from '../../store/Filter';
 
 const useStyles = makeStyles({
   root: {
@@ -67,12 +69,13 @@ function StyledRadio(props: RadioProps) {
   );
 }
 
-interface DogFilterProps {
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-const DogFilter: React.FC<DogFilterProps> = ({ handleChange }) => {
+const DogFilter: React.FC = () => {
   const alphabet = alphabetArray('a', 'z');
+
+  function handleFiltering(event: React.ChangeEvent<HTMLInputElement>) {
+    const { value }: { value: string } = event.target;
+    activateFilter(value);
+  }
 
   return (
     <FormControl component="fieldset">
@@ -83,7 +86,7 @@ const DogFilter: React.FC<DogFilterProps> = ({ handleChange }) => {
         defaultValue="all"
         aria-label="filters"
         name="customized-radios"
-        onChange={handleChange}
+        onChange={handleFiltering}
       >
         <FormControlLabel value="all" control={<StyledRadio />} label="All" />
         {alphabet.map((letter: string, index: number) => (

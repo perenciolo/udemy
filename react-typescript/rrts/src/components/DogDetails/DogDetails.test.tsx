@@ -1,14 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
+import { useStore } from 'effector-react';
 
 import DogDetails from '.';
-import App from '../../App';
+import { DogInfo } from '../DogWrapper';
+
+jest.mock('effector-react');
 
 describe('Dog Details Component behaviors', () => {
   let wrapper: ReactWrapper;
+  const handleBark = jest
+    .fn()
+    .mockImplementation(() => window.alert(`Woof! Woof!`));
+
+  const activeDog: DogInfo = {
+    name: 'Linus',
+    uri: 'https://placeimg.com/300/300/animals',
+    scold: 1
+  };
 
   beforeEach(() => {
-    wrapper = mount<Component>(<App />);
+    (useStore as jest.Mock).mockReturnValue(activeDog);
+    wrapper = mount(<DogDetails onBark={handleBark} />);
   });
 
   test('renders DogDetail component', () => {
@@ -18,31 +31,10 @@ describe('Dog Details Component behaviors', () => {
   test('shows `Woof! Woof!` alert when button is clicked', () => {
     jest.spyOn(window, 'alert').mockImplementation(() => {});
     wrapper
-      .find('DogDetails')
+      .find(DogDetails)
       .find('button.bark-action')
       .simulate('click');
     expect(window.alert).toHaveBeenCalledWith(`Woof! Woof!`);
-  });
-});
-
-describe('Dog Details props', () => {
-  let wrapper: ReactWrapper;
-  const name = 'Linus';
-  const img = 'https://placeimg.com/300/300/animals';
-
-  beforeEach(() => {
-    const handleBark = jest.fn();
-    wrapper = mount<Component>(
-      <DogDetails name={name} img={img} onBark={handleBark} />
-    );
-  });
-
-  test("component should have a prop with the dog's name", () => {
-    expect(wrapper.prop('name')).toEqual(name);
-  });
-
-  test("component should have a prop with the dog's image", () => {
-    expect(wrapper.prop('img')).toEqual(img);
   });
 
   test('component should have a prop onBark and it should be a function', () => {
