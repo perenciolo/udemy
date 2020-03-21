@@ -47,7 +47,7 @@ export default function DogWrapper() {
           <CircularProgress />
         </Grid>
       ) : (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} className="dogs-wrapper">
           <Grid item xs={12} sm>
             <h2>Dog List</h2>
             <DogList />

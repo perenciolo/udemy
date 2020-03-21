@@ -6,8 +6,8 @@ import './App.css';
 
 import AlertBtn from './components/AlertBtn';
 import CreateBeerForm from './components/CreateBeerForm';
-import CreateBeerFormikForm from './components/CreateBeerFormikForm';
 import DogWrapper from './components/DogWrapper';
+import CreateBeerFormik from './components/shared/Forms/CreateBeerFormik';
 
 function App() {
   return (
@@ -16,8 +16,8 @@ function App() {
       <Container fixed>
         <DogWrapper />
         <hr />
-        <h2>With Formik</h2>
-        <CreateBeerFormikForm />
+        <h2>With Formik CURRENT SHARED</h2>
+        <CreateBeerFormik />
         <hr />
         <h2>Default Form</h2>
         <CreateBeerForm />

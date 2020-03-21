@@ -1,33 +1,32 @@
 import React from 'react';
-import { ReactWrapper, mount, shallow, ShallowWrapper } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { useStore } from 'effector-react';
 
 import DogList from '.';
 import { DogInfo } from '../DogWrapper';
+import { Filter } from '../../store/Filter';
 
 jest.mock('effector-react');
 
 describe('DogList Component', () => {
-  let wrapper: ReactWrapper;
   const emptyDogsDataTxt = 'No dogs found for this filter';
 
-  beforeEach(() => {
-    wrapper = mount(<DogList />);
-  });
+  beforeEach(() => {});
 
   describe('empty dogs data behavior', () => {
+    const wrapper = mount(<DogList />);
     test('should render without errors', () => {
       expect(wrapper.find('.dog-list').length).toBeTruthy();
     });
 
     test(`should render the text ${emptyDogsDataTxt} when dog list is empty`, () => {
+      const wrapper = mount(<DogList />);
       expect(wrapper.find('.dog-list div').text()).toEqual(emptyDogsDataTxt);
     });
   });
 
   describe('dogs data is not empty', () => {
-    let wrapper: ShallowWrapper;
-    const DogStore: DogInfo[] = [
+    const DogState: DogInfo[] = [
       {
         name: 'chihuahua',
         uri: 'chihuahua'
@@ -45,30 +44,33 @@ describe('DogList Component', () => {
         uri: 'cockapoo'
       },
       {
-        name: 'collie',
+        name: 'collie-jamile',
         uri: 'collie'
       }
     ];
 
     beforeEach(() => {
-      wrapper = shallow(<DogList />);
+      jest.clearAllMocks();
     });
 
     test('should call useStore', () => {
-      (useStore as jest.Mock).mockReturnValue(DogStore);
-
+      (useStore as jest.Mock).mockReturnValue(DogState);
+      mount(<DogList />);
       expect(useStore).toHaveBeenCalledTimes(1);
+      expect(useStore).toHaveBeenCalledWith(Filter);
     });
 
-    // test('should render a ListItem for each item on list', () => {
-    //   expect(wrapper.find('li.MuiListItem-root').length).toEqual(DogStore.length);
-    // });
+    test('should render a ListItem for each item on list', () => {
+      (useStore as jest.Mock).mockReturnValue(DogState);
+      const wrapper = shallow(<DogList />);
+      expect(wrapper.find('DogAvatar').length).toEqual(DogState.length);
+    });
 
-    // test('should display the correct name of breed associated with the index', () => {
-    //   console.log(wrapper.debug());
-    //   expect(
-    //     wrapper.find('.MuiListItemText-primary').get(0).props.children
-    //   ).toEqual(DogStore[0]);
-    // });
+    test('should display the correct name of breed associated with the index', () => {
+      const wrapper = shallow(<DogList />);
+      expect(wrapper.find('DogAvatar').get(0).props.breedName).toEqual(
+        DogState[0].name
+      );
+    });
   });
 });
