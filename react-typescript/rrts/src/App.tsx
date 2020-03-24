@@ -5,7 +5,7 @@ import Container from '@material-ui/core/Container';
 import './App.css';
 
 import AlertBtn from './components/AlertBtn';
-import CreateBeerForm from './components/CreateBeerForm';
+import CreateBeerForm from './components/shared/Forms/non-formik/CreateBeerForm';
 import DogWrapper from './components/DogWrapper';
 import CreateBeerFormik from './components/shared/Forms/CreateBeerFormik';
 
