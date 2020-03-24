@@ -80,8 +80,6 @@ export default function CreateBeerForm() {
       setFormState(INITIAL_STATE);
       return;
     }
-
-    console.log('ERROR::INVALID-FORM-DATA');
   }
 
   return (
