@@ -135,3 +135,7 @@ When the use clicks on a button, the DogList should only show the rows with dogs
 ## Exercise 17
 
 Refactor your code to use effectorjs. Using this lib, you should be able to concentrate all status changes in one place, and remove the use of state of all components.
+
+## Exercise 18
+
+Add Storybook support in this project

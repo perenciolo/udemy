@@ -1,11 +1,15 @@
 import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { mount, ReactWrapper, shallow } from 'enzyme';
 import { useStore } from 'effector-react';
 
 import DogDetails from '.';
 import { DogInfo } from '../DogWrapper';
+import { changeDog } from '../../store/Dogs';
+import { scoldActiveDog } from '../../store/ActiveDog';
 
 jest.mock('effector-react');
+jest.mock('../../store/Dogs');
+jest.mock('../../store/ActiveDog');
 
 describe('Dog Details Component behaviors', () => {
   let wrapper: ReactWrapper;
@@ -50,5 +54,13 @@ describe('Dog Details Component behaviors', () => {
     wrapper.find('button.scolding-counter--add').simulate('click');
     expect(wrapper.find('.scolding-counter')).toHaveLength(1);
     expect(Number(wrapper.find('.scolding-counter').text())).toEqual(1);
+  });
+
+  test('should scold dog if button is clicked', () => {
+    (useStore as jest.Mock).mockReturnValue(activeDog);
+    const wrapper = shallow(<DogDetails onBark={handleBark} />);
+    wrapper.find('.scolding-counter--add').simulate('click');
+    expect(scoldActiveDog).toHaveBeenCalledWith({ ...activeDog, scold: 2 });
+    expect(changeDog).toHaveBeenCalledWith({ ...activeDog, scold: 2 });
   });
 });
