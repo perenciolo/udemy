@@ -79,7 +79,7 @@ describe('DefFormSelect Component', () => {
         options={options}
         label="Beer Type"
         error={false}
-        errorState={['this is an error', 'this is another error']}
+        errorState={[]}
         handler={() => {}}
       />
     );
@@ -87,6 +87,24 @@ describe('DefFormSelect Component', () => {
     expect(
       wrapper.find('WithStyles(ForwardRef(FormHelperText))').exists()
     ).toBe(false);
+  });
+
+  test('should render helperText if it is defined and component does not have any errors', () => {
+    const wrapper = shallow(
+      <DefFormSelect
+        name="Beer Type"
+        value={options[0].value}
+        options={options}
+        label="Beer Type"
+        error={false}
+        errorState={[]}
+        handler={() => {}}
+        helperText="This is a helperText"
+      />
+    );
+    expect(
+      wrapper.find('WithStyles(ForwardRef(FormHelperText))').text()
+    ).toEqual('This is a helperText');
   });
 
   test('should call prop `handler` on change', () => {

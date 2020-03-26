@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { object, string, reach } from 'yup';
+import { object, string, reach, Shape } from 'yup';
 
 import FormGroup from '@material-ui/core/FormGroup';
 import Grid from '@material-ui/core/Grid';
@@ -41,7 +41,7 @@ export default function CreateBeerForm() {
    * @param key - formState key
    * @param value - formState value to be changed
    */
-  async function handleChange(key: string, value: string | boolean) {
+  function handleChange(key: string, value: string | boolean) {
     setFormState({ ...formState, [key]: value });
     const yupOptions = {
       abortEarly: false,
@@ -49,17 +49,21 @@ export default function CreateBeerForm() {
       strict: false,
       stripUnknown: true
     };
+
     try {
-      await reach(schema, key).validate(value, yupOptions);
+      reach(schema, key).validateSync(value, yupOptions);
+
       const validationErr: FormValidErr = {
         [key]: { invalid: false, errors: [] }
       };
+
       setErrorState({
         ...errorState,
         ...validationErr
       });
     } catch ({ errors }) {
       const validationErr: FormValidErr = { [key]: { invalid: true, errors } };
+
       setErrorState({
         ...errorState,
         ...validationErr
@@ -73,13 +77,8 @@ export default function CreateBeerForm() {
    */
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    const isValidForm = schema.isValidSync(formState);
-
-    if (isValidForm) {
-      console.log(formState);
-      setFormState(INITIAL_STATE);
-      return;
-    }
+    console.log(formState);
+    setFormState(INITIAL_STATE);
   }
 
   return (
@@ -114,11 +113,9 @@ export default function CreateBeerForm() {
                   { name: 'stout', value: 'Stout' },
                   { name: 'Brew', value: 'brew' }
                 ]}
-                handler={(event: React.ChangeEvent<SelectTypeElm>) => {
-                  if (typeof event.target.value === 'string') {
-                    handleChange('selectedType', event.target.value);
-                  }
-                }}
+                handler={(event: React.ChangeEvent<SelectTypeElm>) =>
+                  handleChange('selectedType', event.target.value as string)
+                }
                 helperText="Select a beer type"
                 error={
                   errorState &&

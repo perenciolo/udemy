@@ -1,10 +1,11 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
+import { object, string } from 'yup';
+import { Box, FormGroup } from '@material-ui/core';
+
 import InputText from '../InputText';
 import FormSelect from '../FormSelect';
 import CheckBox from '../CheckBox';
-import { Box, FormGroup } from '@material-ui/core';
-import { object, string } from 'yup';
 import FormSubmitBtn from '../FormSubmitBtn';
 
 export interface CreateBeerFormikProps {
@@ -26,6 +27,10 @@ export default function CreateBeerFormik() {
     { name: 'Ipa', value: 'ipa' },
     { name: 'Stout', value: 'stout' }
   ];
+
+  function isInvalid(name?: string, isTouched?: boolean) {
+    return Boolean(name && isTouched);
+  }
 
   return (
     <Formik
@@ -57,7 +62,7 @@ export default function CreateBeerFormik() {
                 <InputText
                   name="name"
                   label="Beer Name"
-                  error={Boolean(errors.name && touched.name)}
+                  error={isInvalid(errors.name, touched.name)}
                 />
               </FormGroup>
             </Box>
@@ -67,7 +72,7 @@ export default function CreateBeerFormik() {
                   name="selectedType"
                   options={typeOptions}
                   label="Beer Type"
-                  error={Boolean(errors.selectedType && touched.selectedType)}
+                  error={isInvalid(errors.selectedType, touched.selectedType)}
                 />
               </FormGroup>
             </Box>
@@ -83,7 +88,7 @@ export default function CreateBeerFormik() {
                 name="ingredients"
                 label="Ingredients"
                 multiline
-                error={Boolean(errors.ingredients && touched.ingredients)}
+                error={isInvalid(errors.ingredients, touched.ingredients)}
               />
             </FormGroup>
           </Box>

@@ -1,13 +1,15 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, ShallowWrapper } from 'enzyme';
 import { useField } from 'formik';
 
-import CheckBox from '.';
+import CheckBox, { CheckBoxProps } from '.';
 
 jest.mock('formik');
 
 describe('CheckBox Component', () => {
-  test('should render without errors', () => {
+  let wrapper: ShallowWrapper;
+
+  beforeEach(() => {
     (useField as jest.Mock).mockImplementation(() => [
       {
         name: 'Brahma',
@@ -15,9 +17,22 @@ describe('CheckBox Component', () => {
         value: 'chop'
       }
     ]);
-    const wrapper = shallow(
-      <CheckBox name="checkbox" value="test" label="card" />
-    );
+    wrapper = shallow(<CheckBox name="Brahma" label="Has corn?" />);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('should render without errors', () => {
     expect(wrapper.exists()).toEqual(true);
+  });
+
+  test('should render props without errors', () => {
+    const control: { props: CheckBoxProps } = wrapper.prop('control');
+    const checkboxProps: CheckBoxProps = control.props;
+    expect(checkboxProps.name).toEqual('Brahma');
+    expect(checkboxProps.label).toEqual('Has corn?');
+    expect(checkboxProps.value).toEqual('chop');
   });
 });

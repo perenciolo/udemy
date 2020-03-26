@@ -4,13 +4,25 @@ import { shallow } from 'enzyme';
 import CreateBeerForm from '.';
 
 describe('CreateBeerForm Component', () => {
-  beforeEach(() => {
+  afterEach(() => {
     jest.clearAllMocks();
   });
 
   test('should render without errors', () => {
     const wrapper = shallow(<CreateBeerForm />);
     expect(wrapper.exists()).toEqual(true);
+  });
+
+  // @TODO: Check this test.
+  test('should set error if input value is invalid', () => {
+    const wrapper = shallow(<CreateBeerForm />);
+    wrapper.find('[name="Beer name"]').invoke('changeHandler')({
+      target: { value: '' }
+    });
+    expect(wrapper.find('[name="Beer name"]').prop('error')).toEqual(true);
+    expect(wrapper.find('[name="Beer name"]').prop('errorState')).toEqual([
+      'Please, give a valid beer name'
+    ]);
   });
 
   test('should submit whitout errors', () => {

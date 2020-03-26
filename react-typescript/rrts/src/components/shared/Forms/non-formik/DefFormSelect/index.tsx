@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ReactNode } from 'react';
+import React, { ChangeEvent } from 'react';
 import {
   MenuItem,
   FormControl,
@@ -9,7 +9,7 @@ import {
 
 export interface SelectTypeElm {
   name?: string | undefined;
-  value: unknown;
+  value: any;
 }
 
 interface DefFormSelectProps {
@@ -17,7 +17,9 @@ interface DefFormSelectProps {
   name: string;
   value: string;
   options: { name: string; value: string }[];
-  handler: (event: ChangeEvent<SelectTypeElm>, child: ReactNode) => void;
+  handler: (
+    event: ChangeEvent<SelectTypeElm> | React.FocusEvent<HTMLSelectElement>
+  ) => void;
   helperText?: string;
   error: boolean;
   errorState: string[];
@@ -36,10 +38,8 @@ export default function DefFormSelect({
   return (
     <FormControl error={error}>
       <InputLabel>{label}</InputLabel>
-      <Select name={name} value={value} onChange={handler}>
-        <MenuItem value="-1">
-          <em>None</em>
-        </MenuItem>
+      <Select name={name} value={value} onChange={handler} onBlur={handler}>
+        <MenuItem value="">none</MenuItem>
         {options.map(opt => (
           <MenuItem key={opt.value} value={opt.value}>
             {opt.name}
