@@ -5,13 +5,13 @@ import { useStore } from 'effector-react';
 import DogList from '.';
 import { DogInfo } from '../DogWrapper';
 import { Filter } from '../../store/Filter';
+import { selectActiveDog } from '../../store/ActiveDog';
 
 jest.mock('effector-react');
+jest.mock('../../store/ActiveDog');
 
 describe('DogList Component', () => {
   const emptyDogsDataTxt = 'No dogs found for this filter';
-
-  beforeEach(() => {});
 
   describe('empty dogs data behavior', () => {
     const wrapper = mount(<DogList />);
@@ -71,6 +71,13 @@ describe('DogList Component', () => {
       expect(wrapper.find('DogAvatar').get(0).props.breedName).toEqual(
         DogState[0].name
       );
+    });
+
+    test('should call handleClick on clicking the `ListItem`', () => {
+      const wrapper = shallow(<DogList />);
+      const listItem = wrapper.find('WithStyles(ForwardRef(ListItem))').first();
+      listItem.simulate('click');
+      expect(selectActiveDog).toHaveBeenCalled();
     });
   });
 });
