@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { object, string, reach, Shape } from 'yup';
+import { object, string, reach } from 'yup';
 
 import FormGroup from '@material-ui/core/FormGroup';
 import Grid from '@material-ui/core/Grid';
