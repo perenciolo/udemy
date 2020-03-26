@@ -117,4 +117,20 @@ describe('DefInputText Component', () => {
       .simulate('change', 'value');
     expect(onChange).toHaveBeenCalledWith('value');
   });
+  test('should render helperText if it is defined and error is false', () => {
+    const wrapper = shallow(
+      <DefInputText
+        name="Beer Name"
+        label="Beer Name"
+        error={false}
+        value="Faxe"
+        errorState={['error data']}
+        changeHandler={() => {}}
+        helperText="This is a helperText"
+      />
+    );
+    expect(
+      wrapper.find('WithStyles(ForwardRef(FormHelperText))').text()
+    ).toEqual('This is a helperText');
+  });
 });
